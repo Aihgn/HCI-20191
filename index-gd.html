@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phòng kế toán</title>   
+
+    <!-- Scripts -->
+    <script src="./js/jquery-3.4.1.min.js"></script>  
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="./js/bootstrap.js"></script>
+
+    <script src="https://kit.fontawesome.com/a0c9f28953.js" crossorigin="anonymous"></script>
+
+    <script src="./js/app.js"></script>
+    <script src="./js/Chart.bundle.min.js"></script>
+    <script src="./js/Chart.min.js"></script>
+
+    <!-- Styles -->
+    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/Chart.min.css" rel="stylesheet">
+
+ 
+</head>
+<body>
+    <div class="wrap">                
+        <div id ="side-menu">      
+            <nav class="nav-menu">
+                <a href="./index-gd.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg>
+                    <span class="span-side">Trang chủ</span>
+                </a>
+                <a href="./giaoviec-gd.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon"><path d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h404a6 6 0 0 1 6 6v340a6 6 0 0 1-6 6zm-42-92v24c0 6.627-5.373 12-12 12H204c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h200c6.627 0 12 5.373 12 12zm0-96v24c0 6.627-5.373 12-12 12H204c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h200c6.627 0 12 5.373 12 12zm0-96v24c0 6.627-5.373 12-12 12H204c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h200c6.627 0 12 5.373 12 12zm-252 12c0 19.882-16.118 36-36 36s-36-16.118-36-36 16.118-36 36-36 36 16.118 36 36zm0 96c0 19.882-16.118 36-36 36s-36-16.118-36-36 16.118-36 36-36 36 16.118 36 36zm0 96c0 19.882-16.118 36-36 36s-36-16.118-36-36 16.118-36 36-36 36 16.118 36 36z"/></svg>
+                    <span class="span-side">Giao việc</span>
+                </a>
+                <a href="./kpi-gd.html">   
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 544 512" class="icon"><path d="M527.79 288H290.5l158.03 158.03c6.04 6.04 15.98 6.53 22.19.68 38.7-36.46 65.32-85.61 73.13-140.86 1.34-9.46-6.51-17.85-16.06-17.85zm-15.83-64.8C503.72 103.74 408.26 8.28 288.8.04 279.68-.59 272 7.1 272 16.24V240h223.77c9.14 0 16.82-7.68 16.19-16.8zM224 288V50.71c0-9.55-8.39-17.4-17.84-16.06C86.99 51.49-4.1 155.6.14 280.37 4.5 408.51 114.83 513.59 243.03 511.98c50.4-.63 96.97-16.87 135.26-44.03 7.9-5.6 8.42-17.23 1.57-24.08L224 288z"/></svg>
+                    <span class="span-side">Đánh giá KPI</span>
+                </a>   
+            </nav>
+        </div>
+
+        <header class="container-fluid">
+            <div class="row">               
+           
+                <a href="#" class="show-menu-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon-2"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
+                </a>
+               
+                <div class="user-area row dropdown">
+                    <a href="#" class="notification">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon-header"><path d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"/></svg>
+                        <span class="circle">3</span>
+                    </a>
+                    <a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                
+                        <div class="user-img">Giám đốc
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon-header"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"/></svg>
+                        </div>
+                    </a>   
+                    <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="./index.html">Kế toán trưởng</a>
+                        <a class="dropdown-item" href="./index-ktdn.html">Kế toán doanh nghiệp</a>                        
+                        <a class="dropdown-item" href="#">Cài đặt</a>
+                        <a class="dropdown-item" href="#">Đăng xuất</a>
+                    </div>         
+                </div>  
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="row mt-3">
+                <div class="col-6 col-md-4 col-xs-12">
+                    <div class="card pb-3">
+                        <div class="card-body" style="text-align: center;">
+                            <a href="">
+                                <h3 style="color: #000;">5</h3>
+                                <span style="color: #000">Kế toán viên</span>
+                            </a>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xs-12">
+                    <div class="card pb-3">
+                        <div class="card-body" style="text-align: center;">
+                            <a href="./congviec.html">
+                                <h3 style="color: #000;">37</h3>
+                                <span style="color: #000">Công việc</span>
+                            </a>
+                        </div>                        
+                    </div>
+                </div>                
+                <div class="col-6 col-md-4 col-xs-12">
+                    <div class="card pb-3">
+                        <div class="card-body" style="text-align: center;">
+                            <a href="./congviec.html">
+                                <h3 style="color: #000;">12</h3>
+                                <span style="color: #000">Việc đang làm</span>
+                            </a>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xs-2">
+                    
+                </div>             
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12 col-md-6 col-xs-2">
+                    <div class="card">
+                        <h4 class="m-3">KPI</h4>
+                        <canvas id="myChart" width="400" height="200" ></canvas>
+                    </div>
+                </div>   
+                <div class="col-12 col-md-6 col-xs-2">
+                    <div class="card">
+                        <h4 class="m-3">Tỷ lệ công việc đúng hạn</h4>
+                        <canvas id="myChart2" width="400" height="200" ></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <h1 class="ml-2">Việc đã giao</h1>  
+                <table class="table table-hover table-striped mb-4">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%">#</th>    
+                            <th style="width: 40%">Công việc</th> 
+                            <th>Người thực hiện</th>  
+                            <th>Tiến độ</th>
+                            <th>Thời hạn</th>                     
+                            <th colspan="2" style="width: 10%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-search">  
+                        <tr>
+                            <td>1</td>
+                            <td>Báo cáo chi phí tổ chức sự kiện tổng kết cuối năm</td>   
+                            <td>Kế toán doanh nghiệp</td>                       
+                            <td>
+                                <div class="progressbar">
+                                    <div class="red" style="width:20%"></div>
+                                </div>
+                            </td> 
+                            <td style="vertical-align: middle; text-align: center;"><span class="badge badge-success">Còn 8 ngày</span></td>                           
+                            <td><button class="btn btn-admin detail-btn2-5">Chi tiết</button></td>
+                        </tr>       
+                        <tr>
+                            <td>2</td>
+                            <td>Báo cáo chế độ, tiền lương, thưởng tháng 12</td>     
+                            <td>Kế toán bán hàng</td>                      
+                            <td>
+                                <div class="progressbar">
+                                    <div class="yellow" style="width:50%"></div>
+                                </div>
+                            </td> 
+                            <td style="vertical-align: middle; text-align: center;"><span class="badge badge-danger">Quá 1 ngày</span></td>  
+                            <td><button class="btn btn-admin detail-btn2-5">Chi tiết</button></td>
+                        </tr>    
+                        <tr>
+                            <td>3</td>
+                            <td>Báo cáo kết quả của hoạt động kinh doanh tháng 12 và quý 4</td>    
+                            <td>Kế toán doanh nghiệp</td>                      
+                            <td>
+                                <div class="progressbar">
+                                    <div class="yellow" style="width:35%"></div>
+                                </div>
+                            </td> 
+                            <td  style="vertical-align: middle; text-align: center;"><span class="badge badge-success">Còn 1 ngày</span></td>    
+                            <td><button class="btn btn-admin detail-btn2-5">Chi tiết</button></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Báo cáo thuế và các khoản phải đóng góp khác theo quy định của pháp luật</td>
+                            <td>Kế toán doanh nghiệp</td>                      
+                            <td>
+                                <div class="progressbar">
+                                    <div class="green" style="width:90%"></div>
+                                </div>
+                            </td> 
+                            <td  style="vertical-align: middle; text-align: center;"><span class="badge badge-success">Còn 2 ngày</span></td>    
+                            <td><button class="btn btn-admin detail-btn2-5">Chi tiết</button></td>
+                        </tr> 
+                        <tr>
+                            <td>5</td>
+                            <td>Báo cáo tài chính việc mua sắm, sửa chữa,xây dựng</td>   
+                            <td>Kế toán doanh nghiệp</td>
+                            <td>
+                                <div class="progressbar">
+                                    <div class="green" style="width:95%"></div>
+                                </div>
+                            </td> 
+                            <td  style="vertical-align: middle; text-align: center;"><span class="badge badge-danger">Quá 1 ngày</span></td>    
+                            <td><button class="btn btn-admin detail-btn2-5">Chi tiết</button></td>
+                        </tr> 
+                    </tbody>
+                </table>                
+            </div>
+
+            <div id="detailModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">                       
+                            <div class="modal-header">
+                                <h2 class="modal-title">Chi tiết</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người phụ trách: </b>Giám đốc
+                                </div> 
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Báo cáo chế độ, tiền lương, thưởng tháng 12
+                                </div>       
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Loại công việc: </b>Báo cáo
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Cấp độ khẩn: </b>Bình thường
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Ngày giao: </b>1/12/2019
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Hạn chót: </b>27/12/2019
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Mô tả: </b>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người tham gia: </b>Kế toán trưởng
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Đính kèm: </b> <input type="file" name="">
+                                </div>
+                                <div class="col-12">
+                                    <h3 class="m-2">Các hạng mục</h3>
+                                    <table class="table table-hover table-striped table-responsive-md mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">#</th>    
+                                                <th>Hạng mục</th>  
+                                                <th>Người thực hiện</th>  
+                                                <th>Thời hạn</th>
+                                                <th>Tiến độ</th>
+                                                <th>Chức năng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb-search">  
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Báo cáo</td>  
+                                                <td>Kế toán DN</td>  
+                                                <td>Còn 2 ngày</td>
+                                                <td>Đã hoàn thành</td> 
+                                                <td style="text-align: center;"><button type="button" class="btn btn-admin detail-mn-btn">Chi tiết</button></td>
+                                            </tr>       
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Báo cáo</td>   
+                                                <td>Kế toán BH</td> 
+                                                <td>Còn 5 ngày</td>
+                                                <td>50%</td> 
+                                                <td style="text-align: center;"><button type="button" class="btn btn-admin detail-mn-btn">Chi tiết</button></td>
+                                            </tr>    
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Báo cáo</td>    
+                                                <td>Kế toán DN</td> 
+                                                <td>còn 4 ngày</td>
+                                                <td>80%</td>
+                                                <td style="text-align: center;"><button type="button" class="btn btn-admin detail-mn-btn">Chi tiết</button></td>
+                                            </tr>           
+                                        </tbody>
+                                    </table>
+                                </div>                                  
+                            </div>
+                            <div class="modal-footer">      
+                                <button type="button" class="btn btn-success cf-btn">Hoàn thành</button>
+                                <button type="button" class="btn btn-danger ov-btn">Gia hạn</button>
+                                <button type="button" class="btn btn-admin at-btn">Thêm tiến độ</button>  
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="detailModal2-5" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">                       
+                            <div class="modal-header">
+                                <h2 class="modal-title">Chi tiết</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                               <div class="form-group m-3 col-12"> 
+                                    <b>Người phụ trách: </b>Kế toán trưởng
+                                </div> 
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Báo cáo chi phí tổ chức sự kiện tổng kết cuối năm
+                                </div>       
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Loại công việc: </b>Báo cáo
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Cấp độ khẩn: </b>Bình thường
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Ngày giao: </b>1/12/2019
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Hạn chót: </b>27/12/2019
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Mô tả: </b>Mô tả
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người tham gia: </b>Kế toán doanh nghiệp, Kế toán bán hàng
+                                </div>  
+                                <div class="col-12">
+                                    <h3 class="m-2">Các hạng mục</h3>
+                                    <table class="table table-hover table-striped table-responsive-md mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">#</th>  
+                                                <th>Hạng mục</th>  
+                                                <th>Người thực hiện</th>  
+                                                <th>Ngày giao</th>
+                                                <th>Ngày hoàn thành</th>
+                                                <th style="width: 20%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb-search">  
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Tổng hợp số liệu</td>  
+                                                <td>Kế toán DN</td>   
+                                                <td>1/12/2019</td>
+                                                <td>20/12/2019</td>
+                                                <td><button type="button" class="btn btn-admin detail-mn-btn">Chi tiết</button></td>
+                                            </tr>       
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Phân tích kết quả</td>   
+                                                <td>Kế toán BH</td>
+                                                <td>1/12/2019</td>
+                                                <td>Chưa</td>
+                                                <td><button type="button" class="btn btn-admin detail-mn-btn">Chi tiết</button></td>
+                                            </tr>    
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Báo cáo</td>    
+                                                <td>Kế toán DN</td> 
+                                                <td>1/12/2019</td>
+                                                <td>Chưa</td>
+                                                <td><button type="button" class="btn btn-admin detail-mn-btn">Chi tiết</button></td>
+                                            </tr>           
+                                        </tbody>
+                                    </table>
+                                </div>                                  
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success ok-btn">Đốc thúc</button>
+                                <button type="button" class="btn btn-danger cmt2-btn">Nhắc nhở</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="detailMiniModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">                       
+                            <div class="modal-header">
+                                <h2 class="modal-title">Chi tiết</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người phụ trách: </b>Kế toán trưởng
+                                </div> 
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Thực hiện tổng hợp
+                                </div>
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Ngày giao: </b>1/12/2019
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Ngày hoàn thành: </b>27/12/2019
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người tham gia: </b>Kế toán doanh nghiệp
+                                </div> 
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Đính kèm: <input type="file" name=""></b><br> tổng hợp.xlxs<a href="#" class="btn btn-admin p-0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 1rem;max-height: 1rem;vertical-align: middle;margin: auto .5rem auto .5rem;"><path d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg></a>
+                                </div>                 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-admin" data-dismiss="modal">Xong</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cftModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Thêm tiến độ</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người phụ trách: </b>Kế toán trưởng
+                                </div> 
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Thực hiện tổng hợp
+                                </div>
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Ngày giao: </b>1/12/2019
+                                </div>
+
+                                <div class="form-group input-field m-3 col-10"> 
+                                    <b>Người tham gia: </b>
+                                    <input type="text" class="m-3">
+                                </div>
+                                <div class="form-group input-field m-3 col-10">
+                                    <b>Hạng mục: </b>
+                                    <input type="text" class="m-3">
+                                </div>
+                                <div class="form-group input-field m-3 col-5"> 
+                                    <b>Ngày hoàn thành dự kiến: </b>
+                                    <input type="text" class="m-3">
+                                </div>
+                                <div class="form-group input-field m-3 col-10">
+                                    <b>Mô tả: </b>
+                                    <input type="text" class="m-3">
+                                </div>
+                            </div>
+                            <div class="modal-footer">      
+                                <button type="button" class="btn btn-success ok-btn">Thêm</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div id="overModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Gia hạn</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người phụ trách: </b>Giám đốc
+                                </div> 
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Thực hiện tổng hợp
+                                </div>
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Ngày giao: </b>1/12/2019
+                                </div> 
+                                <div class="form-group m-3 col-5"> 
+                                    <b>Hạn chót: </b>27/12/2019
+                                </div>
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Người tham gia: </b>Kế toán trưởng
+                                </div>
+                                <div class="form-group input-field m-3 col-6"> 
+                                    <b>Thời gian gia hạn: </b>
+                                    <input type="text" class="m-3">
+                                </div>
+                                <div class="form-group input-field m-3 col-11"> 
+                                    <b>Lí do: </b>
+                                    <input type="text" class="m-3">
+                                </div>
+                                <div class="col-12">
+                                    <h3 class="m-2">Các hạng mục</h3>
+                                    <table class="table table-hover table-striped table-responsive-md mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">#</th>  
+                                                <th>Hạng mục</th>  
+                                                <th>Người thực hiện</th>  
+                                                <th>Kết quả hiện tại</th>
+                                                <th>Hạn còn</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb-search">  
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Tổng hợp số liệu</td>  
+                                                <td>Kế toán DN</td>   
+                                                <td>Đã hoàn thành</td>
+                                                <td></td>
+                                            </tr>       
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Phân tích kết quả</td>   
+                                                <td>Kế toán BH</td>
+                                                <td>Chưa hoàn thành</td>
+                                                <td>2 ngày</td>
+                                            </tr>    
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Báo cáo</td>    
+                                                <td>Kế toán DN</td> 
+                                                <td>Chưa hoàn thành</td>
+                                                <td>10 ngày</td>
+                                            </tr>           
+                                        </tbody>
+                                    </table>
+                                </div>                        
+                            </div>
+                            <div class="modal-footer">      
+                                 <button type="button" class="btn btn-success ok-btn" data-dismiss="modal">Xin gia hạn</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cmtModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Nhận xét</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Báo cáo chi phí tổ chức sự kiện tổng kết cuối năm
+                                </div>
+                                <div class="sel-type mt-3 pl-4 row col-12">
+                                    <h4 class="m-4 va-head">Chọn hạng mục</h4> 
+                                    <select class="m-4 col-5 sel-room-type" name="sel_0" id="sel_0">
+                                        <option value="0">Tất cả</option>
+                                        <option value="1">Báo cáo</option>
+                                        <option value="2">Phân tích</option>
+                                        <option value="3">Tổng hợp</option>
+                                    </select>           
+                                </div>
+                                <div class="form-group input-field m-3 col-10">
+                                    <b>Nhận xét:</b> 
+                                    <input type="text" class="m-3">
+                                </div>               
+                            </div>
+                            <div class="modal-footer">      
+                                <button type="button" class="btn btn-success ok-btn">Thêm</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cmt2Modal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Nhắc nhở</h2>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="form-group m-3 col-12"> 
+                                    <b>Tên công việc: </b>Báo cáo chi phí tổ chức sự kiện tổng kết cuối năm
+                                </div>
+                                <div class="sel-type mt-3 pl-4 row col-12">
+                                    <h4 class="m-4 va-head">Chọn hạng mục</h4> 
+                                    <select class="m-4 col-5 sel-room-type" name="sel_0" id="sel_0">
+                                        <option value="0">Tất cả</option>
+                                        <option value="1">Báo cáo</option>
+                                        <option value="2">Phân tích</option>
+                                        <option value="3">Tổng hợp</option>
+                                    </select>           
+                                </div>
+                                <div class="form-group input-field m-3 col-10">
+                                    <b>Nhắc nhở:</b> 
+                                    <input type="text" class="m-3">
+                                </div>               
+                            </div>
+                            <div class="modal-footer">      
+                                <button type="button" class="btn btn-success ok-btn">Thêm</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="successModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="max-width: 500px">
+                    <div class="modal-content">
+                        <form method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>                          
+                            <div class="modal-body" style="text-align: center;">
+                                <img src="./assest/gt.png" style="height: 100px">
+                                <p>Thành công</p>
+                            </div>
+                            <div class="modal-footer" style="    justify-content: center;">      
+                                <button type="button" class="btn btn-success close-all-btn" data-dismiss="modal">Ok</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="comfirmModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="max-width: 500px">
+                    <div class="modal-content">
+                        <form method="post">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Xác nhận</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>                        
+                            <div class="modal-body" style="text-align: center;">
+                                 <img src="./assest/wn.png" style="height: 100px">
+                                <p>Bạn có chắc không?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Không</button>
+                                <button type="button" class="btn btn-success ok-btn" data-dismiss="modal">Có</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div>
+                Nhóm 8 | Phòng Kế Toán
+            </div>
+        </footer>
+    </div>
+
+    
+<script type="text/javascript">
+    $(document).ready(function(){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {                
+                labels  : ['Tháng 8', 'Tháng 9', 'Tháng 11', 'Tháng 12'],
+                datasets: [
+                    {
+                        label               : 'Kế toán trưởng',
+                        backgroundColor     : 'rgba(60,141,188,0.9)',
+                        borderColor         : 'rgba(60,141,188,0.8)',
+                        pointRadius          : false,
+                        pointColor          : '#3b8bba',
+                        pointStrokeColor    : 'rgba(60,141,188,1)',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data                : [28, 25, 27, 26.5],
+                        fill                : false,
+                    },
+                    {
+                        label               : 'Kế toán DN',
+                        backgroundColor     : 'rgba(110, 214, 222, 1)',
+                        borderColor         : 'rgba(110, 214, 222, 1)',
+                        pointRadius         : false,
+                        pointColor          : 'rgba(110, 214, 222, 1)',
+                        pointStrokeColor    : '#c1c7d1',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data                : [21, 22.5, 27, 26],
+                        fill                : false,
+                    },
+                    {
+                        label               : 'Kế toán BH',
+                        backgroundColor     : 'rgba(210, 100, 222, 1)',
+                        borderColor         : 'rgba(210, 100, 222, 1)',
+                        pointRadius         : false,
+                        pointColor          : 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor    : '#c1c7d1',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data                : [20, 25, 22, 23],
+                        fill                : false,
+                    },
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
+            }
+        });
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart = new Chart(ctx2, {
+            type: 'line',
+            data: {                
+                labels  : ['Tháng 8', 'Tháng 9', 'Tháng 11', 'Tháng 12'],
+                datasets: [
+                    {
+                        label               : 'Kế toán trưởng',
+                        backgroundColor     : 'rgba(60,141,188,0.9)',
+                        borderColor         : 'rgba(60,141,188,0.8)',
+                        pointRadius          : false,
+                        pointColor          : '#3b8bba',
+                        pointStrokeColor    : 'rgba(60,141,188,1)',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data                : [90, 95, 97, 90],
+                        fill                : false,
+                    },
+                    {
+                        label               : 'Kế toán DN',
+                        backgroundColor     : 'rgba(110, 214, 222, 1)',
+                        borderColor         : 'rgba(110, 214, 222, 1)',
+                        pointRadius         : false,
+                        pointColor          : 'rgba(110, 214, 222, 1)',
+                        pointStrokeColor    : '#c1c7d1',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data                : [88, 89, 86, 90],
+                        fill                : false,
+                    },
+                    {
+                        label               : 'Kế toán BH',
+                        backgroundColor     : 'rgba(210, 100, 222, 1)',
+                        borderColor         : 'rgba(210, 100, 222, 1)',
+                        pointRadius         : false,
+                        pointColor          : 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor    : '#c1c7d1',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data                : [90, 95, 88, 95],
+                        fill                : false,
+                    },
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
+            }
+        });
+        $('.detail-btn').click(function(e)
+        {
+            $('#detailModal').modal('show');
+        });
+
+        $('.detail-btn2-5').click(function(e)
+        {
+            $('#detailModal2-5').modal('show');
+        });
+        
+
+        $('.detail-mn-btn').click(function(e)
+        {
+            $('#detailMiniModal').modal('show');
+        });
+
+        $('.at-btn').click(function(e)
+        {
+            $('#cftModal').modal('show');
+        });
+
+        $('.ov-btn').click(function(e)
+        {
+            $('#overModal').modal('show');
+        });
+
+        $('.cmt2-btn').click(function(e)
+        {
+            $('#cmt2Modal').modal('show');
+        });
+
+        $('.rate-btn').click(function(e)
+        {
+            $('#rateModal').modal('show');
+        });
+
+        $('.cf-btn').click(function(e)
+        {
+            $('#comfirmModal').modal('show');
+        });
+
+        $('.ok-btn').click(function(e)
+        {
+            $('#successModal').modal('show');
+        });
+
+        $('.close-all-btn').click(function(e)
+        {
+            $('.modal').modal('hide');
+        });
+    });
+</script>
+</body>
+</html>
